@@ -1,0 +1,224 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Minimal Mono design system — all colors HSL */
+@layer base {
+  :root {
+    --background: 39 100% 97%;
+    /* #FFFAF1 */
+    --foreground: 0 0% 6%;
+
+    --card: 40 100% 99%;
+    --card-foreground: 0 0% 6%;
+
+    --popover: 40 100% 99%;
+    --popover-foreground: 0 0% 6%;
+
+    --primary: 0 0% 6%;
+    --primary-foreground: 40 100% 99%;
+
+    --secondary: 38 40% 94%;
+    --secondary-foreground: 0 0% 6%;
+
+    --muted: 38 40% 93%;
+    --muted-foreground: 0 0% 35%;
+
+    --accent: 38 40% 91%;
+    --accent-foreground: 0 0% 6%;
+
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 38 25% 85%;
+    --input: 38 25% 85%;
+    --ring: 0 0% 6%;
+
+    --radius: 0.5rem;
+
+    /* GitHub heatmap */
+    --gh-0: #ebe6d8;
+    --gh-1: #9be9a8;
+    --gh-2: #40c463;
+    --gh-3: #30a14e;
+    --gh-4: #216e39;
+  }
+
+  .dark {
+    --background: 220 5% 12%;
+    /* #1D1E20 */
+    --foreground: 0 0% 98%;
+
+    --card: 220 5% 15%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 220 5% 15%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 0 0% 98%;
+    --primary-foreground: 220 5% 12%;
+
+    --secondary: 220 5% 18%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 220 5% 18%;
+    --muted-foreground: 0 0% 62%;
+
+    --accent: 220 5% 20%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 60% 45%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 5% 22%;
+    --input: 220 5% 22%;
+    --ring: 0 0% 98%;
+
+    /* GitHub heatmap */
+    --gh-0: #2a2b2e;
+    --gh-1: #0e4429;
+    --gh-2: #006d32;
+    --gh-3: #26a641;
+    --gh-4: #39d353;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* keep section headings clear of the sticky navbar when jumping to a link */
+  section[id] {
+    scroll-margin-top: 4rem;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display tracking-tight;
+  }
+
+  ::selection {
+    @apply bg-foreground text-background;
+  }
+}
+
+@layer utilities {
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .container-mono {
+    @apply max-w-5xl mx-auto px-6 sm:px-8;
+  }
+
+  .hairline {
+    @apply border-t border-border;
+  }
+
+  .bg-line-grid {
+    background-image:
+      linear-gradient(hsl(var(--foreground) / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--foreground) / 0.06) 1px, transparent 1px);
+    background-size: 25px 25px;
+  }
+
+  /* Card spotlight: a soft glow that follows the mouse (see useSpotlight) */
+  .spotlight {
+    position: relative;
+  }
+
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%),
+        hsl(var(--foreground) / 0.08),
+        transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .spotlight:hover::before {
+    opacity: 1;
+  }
+
+  /* Hero entrance */
+  .hero-rise {
+    animation: hero-rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  .hero-fade {
+    animation: hero-fade 1s ease-out both;
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    transform: translateY(110%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-fade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .hero-rise,
+  .hero-fade {
+    animation: none;
+  }
+}
+
+/* Smooth light/dark switch: Navbar adds this class for ~0.45s while toggling */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease,
+    fill 0.35s ease, stroke 0.35s ease !important;
+}
+
+/* hide the native cursor only on devices with a real mouse */
+@media (pointer: fine) {
+
+  html,
+  a,
+  button,
+  [role="button"] {
+    cursor: none;
+  }
+}
